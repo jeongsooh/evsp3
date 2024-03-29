@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script>
+  $( function() {
+    $( "#id_register_dttm__gte" ).datepicker();
+  } );
+  $( function() {
+    $( "#id_register_dttm__lte" ).datepicker();
+  } );
+</script>
+{% endblock %}
+
+{% block contents %}
+<div class="row mt-3 mx-3">
+  <div class="col-md-8 fw-bold"><h4>메세지로그정보</h4></div>
+  <div class="col-md-4 bg-light">
+    <form action="" method="get">
+      <div class="row justify-content-end">
+        <div class="form-group mb-3 col-md-2" id="datepicker1">
+          <input type="{{ form.register_dttm__gte.field.widget.input_type }}" id="{{ form.register_dttm__gte.id_for_label }}" 
+            name="{{ form.register_dttm__gte.name }}" class="form-control form-control-sm" placeholder="시작일" />
+        </div>
+        <div class="form-group mb-3 col-md-2" id="datepicker2">
+          <input type="{{ form.register_dttm__lte.field.widget.input_type }}" id="{{ form.register_dttm__lte.id_for_label }}" 
+            name="{{ form.register_dttm__lte.name }}" class="form-control form-control-sm" placeholder="마지막날" />
+        </div>
+        <div class="form-group mb-3 col-md-3 d-grid justify-content-md-end">
+          <input type="{{ form.cpnumber.field.widget.input_type }}" id="{{ form.cpnumber.id_for_label }}" 
+            name="{{ form.cpnumber.name }}" class="form-control form-control-sm" placeholder="충전기번호" />
+        </div>
+        <div class="form-group mb-3 col-md-3">
+          <input type="{{ form.msg_name.field.widget.input_type }}" id="{{ form.msg_name.id_for_label }}" 
+            name="{{ form.msg_name.name }}" class="form-control form-control-sm" placeholder="메세지이름" />
+        </div>
+        <div class="form-group mb-3 col-md-1 d-grid justify-content-md-end">
+          <button class="btn btn-primary" type="submit" id="button-addon2">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row mt-3 mx-3">
+  <div class="col-md-7 fw-bold"><h5>메세지로그정보</h5></div>
+  <div class="col-md-3">
+    <div class="row justify-content-end">
+      <label class="col form-select-sm text-end">정렬기준</label>
+      <select class="col form-select form-select-sm" aria-label="Default select example">
+        <option selected>등록일시</option>
+        <option value="1">충전기번호</option>
+        <option value="2">메세지이름</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-2 d-grid justify-content-md-end">
+    <button class="btn btn-danger btn-sm" 
+      onclick="location.href='/ocpp/deleteall?target=ocppList'">메세지일괄삭제
+    </button>
+  </div>
+</div>
+<!-- <div>
+  {{ form.as_p }}
+</div> -->
+<div class="row mt-2 mx-2">
+  <div class="col-12">
+    {% load infolist_extras %}
+    <table class="table table-light">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">충전기</th>
+          <th scope="col">커넥션아이디</th>
+          <th scope="col">메세지오리진</th>
+          <th scope="col">메세지이름</th>
+          <th scope="col">메세지본문</th>
+          <th scope="col">등록일시</th>
+        </tr>
+      </thead>
+      <tbody class="text-dark">
+        {% for msgloginfo in ocppList %}
+        <tr>
+          <th scope="row">{{ msgloginfo.id }}</th>
+          <th><a href="/charginginfo/{{ charginginfo.id }}">{{ msgloginfo.cpnumber }}</a></th>
+          <th>{{ msgloginfo.connection_id }}</th>
+          <th>{{ msgloginfo.msg_direction }}</th>
+          <th>{{ msgloginfo.msg_name }}</th>
+          <th>{{ msgloginfo.msg_content }}</th>
+          <th>{{ msgloginfo.register_dttm }}</th>
+        </tr>
+        {% endfor %}
+
+    
+      </tbody>
+    </table>
+    <div class="pagination justify-content-center mt-5">
+      <ul class="step-links">
+        {% if page_obj.has_previous %}
+        <a class="btn btn-sm btn-outline-primary" href="{% my_url 1 'page' request.GET.urlencode %}">처음으로</a>
+        <a class="btn btn-sm btn-outline-primary" href="{% my_url page_obj.previous_page_number 'page' request.GET.urlencode %}">이전으로</a>
+        {% else %}
+        <a class="btn btn-sm btn-outline-primary disabled" href="#">처음으로</a>
+        <a class="btn btn-sm btn-outline-primary disabled" href="#">이전으로</a>
+        {% endif %}
+      <span class="current">
+        {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+      </span>
+        {% if page_obj.has_next %}
+        <a class="btn btn-sm btn-outline-primary" href="{% my_url page_obj.next_page_number 'page' request.GET.urlencode %}">다음으로</a>
+        <a class="btn btn-sm btn-outline-primary" href="{% my_url page_obj.paginator.num_pages 'page' request.GET.urlencode %}">마지막으로</a>
+        {% else %}
+        <a class="btn btn-sm btn-outline-primary disabled" href="#">다음으로</a>
+        <a class="btn btn-sm btn-outline-primary disabled" href="#">마지막으로</a>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

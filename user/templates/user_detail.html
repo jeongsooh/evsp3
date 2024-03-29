@@ -1,0 +1,35 @@
+{% extends "base.html" %} 
+
+{% block head %}
+<link rel="stylesheet" href="../../../static/style.css" />
+{% endblock %}
+
+{% block contents %} 
+<div class="container mt-3 mx-3">
+  <h4>회원 상세정보</h4>
+  <div class="row mt-5">
+    <div class="col-12">
+      <div class="form-group mb-3">
+        <label for="userid" class="">사용자명</label>
+        <input type="text" class="form-control" id="userid" value="{{ user.userid }}" readonly/>
+        <label for="name" class="">이름</label>
+        <input type="text" class="form-control" id="name" value="{{ user.name }}" readonly/>
+        <label for="email" class="">이메일</label>
+        <input type="text" class="form-control" id="email" value="{{ user.email }}" readonly/>
+        <label for="phone" class="">전화번호</label>
+        <input type="text" class="form-control" id="phone" value="{{ user.phone }}" readonly/>
+      </div>
+      <!-- <button class="btn btn-primary" onclick="location.href='/svchome/'">돌아가기</button> -->
+      <div class="d-grid gap-2 d-md-block">
+        <a class="btn btn-primary" href="/user/{{ user.id }}/update" role="button">회원정보수정</a>
+        <!-- <button class="btn btn-primary" type="button" onclick="/user/{{ user.id }}">회원정보수정</button> -->
+        <button class="btn btn-primary" onclick="javascript:history.go(-1);">돌아가기</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 
+
+{% block script %}
+<script src="../../../static/script.js"></script>
+{% endblock %}

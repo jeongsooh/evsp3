@@ -1,0 +1,128 @@
+{% extends "base.html" %} 
+
+{% block head %}
+<link rel="stylesheet" href="../../../static/style.css" />
+{% endblock %}
+
+{% block contents %} 
+<div class="container mt-3 mx-3">
+  <h4>충전기 상세정보</h4>
+  <div class="row mt-5">
+    <div class="col-12">
+      <table class="table table-light">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">충전기번호</th>
+            <th scope="col">충전기상태</th>
+            <th scope="col">채널1이름</th>
+            <th scope="col">채널1상태</th>
+            <th scope="col">커넥션1아이디</th>
+            <th scope="col">승인된1카드테그</th>
+            <th scope="col">채널1이름</th>
+            <th scope="col">채널1상태</th>
+            <th scope="col">커넥션1아이디</th>
+            <th scope="col">승인된1카드테그</th>
+          </tr>
+        </thead>
+        <tbody class="text-dark">
+          <tr>
+            <th>{{ clients.cpnumber }}</th>
+            <th>{{ clients.cpstatus }}</th>
+            <th>{{ clients.channel_name_1 }}</th>
+            <th>{{ clients.channel_status_1 }}</th>
+            <th>{{ clients.connection_id_1 }}</th>
+            <th>{{ clients.authorized_tag_1 }}</th>
+            <th>{{ clients.channel_name_2 }}</th>
+            <th>{{ clients.channel_status_2 }}</th>
+            <th>{{ clients.connection_id_2 }}</th>
+            <th>{{ clients.authorized_tag_2 }}</th>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-grid gap-2 d-md-block">
+        <a class="btn btn-primary" href="/evcharger/{{ evcharger.id }}/update" role="button">충전기정보수정</a>
+        <button class="btn btn-primary" onclick="javascript:history.go(-1);">돌아가기</button>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <h4>충전기 상세제어</h4>
+    <div class="col-12">
+      <table class="table table-light">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">원격충전</th>
+            <th scope="col">원격충전정지</th>
+            <th scope="col">커넥터해제</th>
+            <th scope="col">캐쉬삭제</th>
+            <th scope="col">설정확인</th>
+            <th scope="col">설정변경</th>
+            <th scope="col">충전프로파일설정</th>
+            <th scope="col">충전프로파일삭제</th>
+            <th scope="col">로컬리스트확인</th>
+            <th scope="col">로컬리스트설정</th>
+            <th scope="col">펌웨어업데이트</th>
+            <th scope="col">충전기진단</th>
+            <th scope="col">충전예약</th>
+            <th scope="col">충전예약취소</th>
+            <th scope="col">원격트리거메세지</th>
+            <th scope="col">충전기사용여부변경</th>
+            <th scope="col">컴포지트스케줄확인</th>
+            <th scope="col">데이터전송</th>
+            <th scope="col">충전기리셋</th>
+            <th scope="col">충전기삭제</th>
+          </tr>
+        </thead>
+        <tbody class="text-dark">
+          <tr>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/remo_scs_cpf" target="_self">원격충전</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/remo_stop_cs" target="_self">원격충전정지</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/unlock_connector" target="_self">커넥터해제</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/clearcache" target="_self">캐쉬삭제</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/getconf" target="_self">설정확인</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/setconf" target="_self">설정변경</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/setchargingprofile" target="_self">충전프로파일설정</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/clearchargingprofile" target="_self">충전프로파일삭제</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/getlocallistversion" target="_self">로컬리스트확인</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/sendlocallist" target="_self">로컬리스트설정</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/updatefirmware" target="_self">업데이트펌웨어</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/getdiagnostics" target="_self">충전기진단</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/reservenow" target="_self">충전예약</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/cancelreservation" target="_self">충전예약취소</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/triggermessage" target="_self">원격트리거메세지</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/changeavailable" target="_self">충전기사용여부</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/getcompositeschedule" target="_self">컴포지트스케줄확인</a></th>
+            <th><a class="btn btn-primary btn-sm btn-info" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/datatransfer" target="_self">데이터전송</a></th>
+            <th><a class="btn btn-primary btn-sm btn-warning" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/reset" target="_self">리셋</a></th>
+            <th><a class="btn btn-primary btn-sm btn-danger" id="clients-{{ clients.id }}" 
+              href="/clients/{{ clients.id }}/delete" target="_self">삭제</a></th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %} 
+
+{% block script %}
+<script src="../../../static/script.js"></script>
+{% endblock %}
