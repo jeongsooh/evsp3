@@ -4,7 +4,7 @@ from django.db import models
 
 class Cpinfo(models.Model):
   PUBLIC_STATUS = (('공용', '공용'), ('비공용', '비공용'),)
-  CP_STATUS = (('정상', '정상'), ('정지', '정지'), ('가동대기', '가동대기'),)
+  CP_STATUS = (('정상', 'Accepted'), ('정지', 'Rejected'), ('가동대기', 'Pending'),)
 
   cpnumber = models.CharField(max_length=64, verbose_name='충전기번호')
   cpsite = models.CharField(max_length=64, verbose_name='충전소이름')

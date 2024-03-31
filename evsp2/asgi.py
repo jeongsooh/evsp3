@@ -22,7 +22,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'evsp2.settings')
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
     "websocket": AuthMiddlewareStack(URLRouter(websocket_urlpatterns)),
-    # "websocket": AllowedHostsOriginValidator(
-    #     AuthMiddlewareStack(URLRouter(websocket_urlpatterns))
-    # ),
 })

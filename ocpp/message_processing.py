@@ -53,7 +53,10 @@ def ocpp_request(ocpp_req):
         queryset = Cpinfo.objects.filter(cpnumber=cpnumber).values()
         if queryset.count() == 0:
           status = "Rejected"   # need to implement "Pending"
+        elif (queryset.count() != 0) and (queryset[0]['cpstatus'] == 'Blocked') :
+          status = "Pending"
         else:
+          print(queryset[0]['cpstatus'])
           status = "Accepted"
 
         queryset = Variables.objects.filter(variable="heartbeat_interval").values()

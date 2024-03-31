@@ -40,14 +40,12 @@
           <th scope="col">충전기번호</th>
           <th scope="col">충전기상태</th>
           <th scope="col">확인일시</th>
-          <th scope="col">채널1이름</th>
           <th scope="col">채널1상태</th>
-          <th scope="col">커넥션1아이디</th>
-          <th scope="col">승인된1카드테그</th>
-          <th scope="col">채널2이름</th>
+          <th scope="col">채널1승인아이디</th>
+          <th scope="col">채널1승인카드</th>
           <th scope="col">채널2상태</th>
-          <th scope="col">커넥션2아이디</th>
-          <th scope="col">승인된2카드테그</th>
+          <th scope="col">채널2승인아이디</th>
+          <th scope="col">채널2승인카드</th>
           <th scope="col">리셋</th>
           <th scope="col">삭제</th>
         </tr>
@@ -59,11 +57,9 @@
           <th><a id="clients-{{ clients.id }}" href="/clients/{{ clients.id }}">{{ clients.cpnumber }}</a></th>
           <th>{{ clients.cpstatus }}</th>
           <th>{{ clients.check_dttm }}</th>
-          <th>{{ clients.channel_name_1 }}</th>
           <th>{{ clients.channel_status_1 }}</th>
           <th>{{ clients.connection_id_1 }}</th>
           <th>{{ clients.authorized_tag_1 }}</th>
-          <th>{{ clients.channel_name_2 }}</th>
           <th>{{ clients.channel_status_2 }}</th>
           <th>{{ clients.connection_id_2 }}</th>
           <th>{{ clients.authorized_tag_2 }}</th>

@@ -3,12 +3,16 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.middleware import BaseMiddleware
 from channels.db import database_sync_to_async
 import json
+import logging
 
 from .message_processing import ocpp_request
 from clients.models import Clients
 # import jwt
 
 from user.models import User
+
+logging.basicConfig(level=logging.DEBUG)
+LOGGER = logging.getLogger('ocpp')
 
 @database_sync_to_async
 def channel_logging(cpnumber, channel_name):
@@ -20,10 +24,10 @@ def channel_logging(cpnumber, channel_name):
       channel_name_1 = channel_name,
     )
     client.save()
-    print('channel saved successfully')
+    logging.info('Channel saved successfully')
   else:
     Clients.objects.filter(cpnumber=cpnumber).update(channel_name_1=channel_name)
-    print('channel updated successfully')
+    logging.info('Channel updated successfully')
 
 class OcppConsumer(AsyncWebsocketConsumer):
     async def connect(self, subprotocols=['ocpp1.6']):
@@ -40,7 +44,6 @@ class OcppConsumer(AsyncWebsocketConsumer):
 
         self.cp_id = self.scope['path_remaining']
         self.cp_group_name = f'group_{self.cp_id}'
-        # print('cp_group_name: ', self.cp_group_name)
 
         await self.channel_layer.group_add(
             self.cp_group_name,
@@ -56,7 +59,7 @@ class OcppConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
 
         message = json.loads(text_data)
-        print('OCPP_REQ received from {}: {}'.format(self.cp_id, message))
+        logging.info('OCPP_REQ received from {}: {}'.format(self.cp_id, message))
 
         await self.channel_layer.group_send(
             self.cp_group_name,
@@ -75,7 +78,7 @@ class OcppConsumer(AsyncWebsocketConsumer):
 
         await self.send(text_data=json.dumps(conf))
 
-        print('OCPP_CONF sent to {}: {}'.format(self.cp_id, conf))
+        logging.info('OCPP_CONF sent to {}: {}'.format(self.cp_id, conf))
 
 @database_sync_to_async
 def ocpp_message_handler(cpnumber, message):
@@ -89,8 +92,6 @@ def ocpp_message_handler(cpnumber, message):
     }
 
     ocpp_conf = ocpp_request(ocpp_req)
-
-    # conf = [3, message[1], {'status':'Accepted'}]
 
     return ocpp_conf
 
