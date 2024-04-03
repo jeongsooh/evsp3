@@ -4,12 +4,15 @@ from channels.middleware import BaseMiddleware
 from channels.db import database_sync_to_async
 import json
 import logging
+import jwt
 
+from .models import Ocpp
 from .message_processing import ocpp_request
 from clients.models import Clients
-# import jwt
+
 
 from user.models import User
+from cpinfo.models import Cpinfo
 
 logging.basicConfig(level=logging.DEBUG)
 LOGGER = logging.getLogger('ocpp')
@@ -44,6 +47,7 @@ class OcppConsumer(AsyncWebsocketConsumer):
 
         self.cp_id = self.scope['path_remaining']
         self.cp_group_name = f'group_{self.cp_id}'
+        print('cp_id: ', self.cp_id)
 
         await self.channel_layer.group_add(
             self.cp_group_name,
@@ -91,10 +95,49 @@ def ocpp_message_handler(cpnumber, message):
         'cpnumber': cpnumber,
     }
 
+    Ocpp.objects.create(
+        msg_direction = message[0],
+        connection_id = message[1],
+        msg_name = message[2],
+        msg_content = message[3],
+        cpnumber = cpnumber
+    )
+
     ocpp_conf = ocpp_request(ocpp_req)
+
+    Ocpp.objects.create(
+        msg_direction = ocpp_conf[0],
+        connection_id = ocpp_conf[1],
+        msg_name = '',
+        msg_content = ocpp_conf[2],
+        cpnumber = cpnumber
+    )
 
     return ocpp_conf
 
+
+class JwtAuthMiddleware(BaseMiddleware):
+    async def __call__(self, scope, receive, send):
+        query_string = scope.get('query_string').decode('utf-8')
+        token = [val.split('=')[1]
+                 for val in query_string.split('&')
+                 if val.startswitch('Authorization=')]
+        print('Authorization: ', token)
+        if token:
+            user =await self.get_user_from_token(token[0])
+            if user:
+                scope['user'] = user
+        return await super().__call__(scope, receive, send)
+    
+    @database_sync_to_async
+    def get_cpid_from_token(self, token):
+        try:
+            payload = jwt.decode(token, "SECRET_KEY")
+            cp_id = Cpinfo.objects.get(cpnumber=payload['username'])
+            print('cp_id: ', cp_id)
+            return cp_id
+        except Exception as e:
+            return None
 
 # class JwtAuthMiddleware(BaseMiddleware):
 #     async def __call__(self, scope, receive, send):
