@@ -12,6 +12,7 @@ $ source venv/scripts/activate
 $ pip install django
 $ python -m pip install -U 'channels[daphne]'
 $ pip install channels-redis
+$ pip install djangorestframework-jwt
 ````
 3. Setting up Redis from official website (https://redis.io/download/)
 ````

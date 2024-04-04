@@ -104,6 +104,9 @@ def ocpp_message_handler(cpnumber, message):
     )
 
     ocpp_conf = ocpp_request(ocpp_req)
+    # ocpp_conf_tmp = json.loads(ocpp_conf)
+
+    print('ecpp_conf: ', ocpp_conf[0])
 
     Ocpp.objects.create(
         msg_direction = ocpp_conf[0],

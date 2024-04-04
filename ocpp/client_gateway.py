@@ -301,7 +301,7 @@ def send_request(cpnumber, message):
   async_to_sync(channel_layer.send)(
     channel_name,
     {
-      'type':'ocpp16_message',
+      'type':'ocpp_message',
       'message': message 
     }
   )
