@@ -32,12 +32,10 @@ class OcppDeleteAllView(DeleteView):
     success_url = '/ocpp'
 
 def ocppdeleteall(request):
-#   if request.method == 'POST':
-#     form = LoginForm(request.POST)
-#     if form.is_valid():
-#       request.session['user'] = form.data.get('userid')
-#       return redirect('/dashboard')
-#   else:
-#     form = LoginForm()
-#   return render(request, 'index.html', {'form': form})
-   return redirect('/ocpp')
+  # ocppList = request.GET.get('target')
+
+  if request.method == 'POST':
+    print('POST requested')
+  else:
+    print('GET requested')
+  return redirect('/ocpp')

@@ -14,3 +14,20 @@ class LoginForm(forms.Form):
     },
     widget=forms.PasswordInput, label='비밀번호'
   )
+
+  def clean(self):
+    cleaned_data = super().clean()
+    userid = cleaned_data.get('userid')
+    password = cleaned_data.get('password')
+
+    if userid and password:
+      try:
+        user = User.objects.get(userid=userid)
+      except User.DoesNotExist:
+        self.add_error('userid', '아이디가 없습니다.')
+        return
+
+      if password != user.password:
+        self.add_error('password', '비밀번호가 틀렸습니다.')
+      else:
+        self.user_id = user.id

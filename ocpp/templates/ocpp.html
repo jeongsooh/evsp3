@@ -57,9 +57,10 @@
       </select>
     </div>
   </div>
-  <div class="col-md-2 d-grid justify-content-md-end">
-    <button class="btn btn-danger btn-sm" 
-      onclick="location.href='/ocpp/deleteall?target=ocppList'">메세지일괄삭제
+  <div id="deleteAll" class="col-md-2 d-grid justify-content-md-end">
+    <button class="btn btn-danger btn-sm" type="submit">
+      메세지일괄삭제
+      <!-- onclick="location.href=''">메세지일괄삭제 -->
     </button>
   </div>
 </div>
@@ -120,4 +121,41 @@
     </div>
   </div>
 </div>
+
+<script>
+document.getElementById("deleteAll").addEventListener("submit", async (event) => {
+    event.preventDefault(); // Prevent default form submission
+    console.log("Context object sent started!");
+
+    // Collect context data from input fields
+    // const name = document.getElementById("name").value;
+    // const age = document.getElementById("age").value;
+
+    // Create a context object (you can customize this based on your needs)
+    // const contextObject = {
+    //     name: name,
+    //     age: age
+    // };
+    try {
+      // Send the context object to the server using AJAX (fetch API)
+      const response = await fetch("/ocpp/deleteall", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(ocppList)
+      });
+
+      if (response.ok) {
+          console.log("Context object sent successfully!");
+          // Handle server response if needed
+      } else {
+          console.error("Error sending context object to the server.");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  }
+);
+</script>
 {% endblock %}
