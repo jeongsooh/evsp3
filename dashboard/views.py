@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 # from django.views.generic.edit import FormView
+from django.views.decorators.csrf import csrf_exempt
 
 from datetime import datetime, timezone, timedelta
 from dateutil.relativedelta import relativedelta
@@ -14,6 +15,7 @@ from django.db.models import Q
 
 # Create your views here.
 
+@csrf_exempt
 def index(request):
   if request.method == 'POST':
     form = LoginForm(request.POST)
