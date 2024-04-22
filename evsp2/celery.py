@@ -7,8 +7,8 @@ from django.conf import settings
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'evsp2.settings')
 
-# app = Celery('evsp2', broker='redis://localhost:6379/1')  
-app = Celery('evsp2')  
+app = Celery('evsp2', broker='redis://localhost:6379/1')  
+# app = Celery('evsp2')  
 app.conf.enable_utc = False
 
 app.conf.update(timezone = 'Asia/Seoul')
